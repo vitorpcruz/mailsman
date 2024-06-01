@@ -1,4 +1,4 @@
-package valueobject
+package value_object
 
 import (
 	"fmt"
@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	title_min_char = 3
-	title_max_char = 100
+	TITLE_MIN_CHAR = 3
+	TITLE_MAX_CHAR = 100
 )
 
 type Title struct {
@@ -23,8 +23,8 @@ func NewTitle(value string) (Title, error) {
 }
 
 func validate(value string) error {
-	if len(value) < title_min_char || len(value) > title_max_char || value == "" {
-		return fmt.Errorf("the title must be between %v and %v chars", title_min_char, title_max_char)
+	if len(value) < TITLE_MIN_CHAR || len(value) > TITLE_MAX_CHAR || value == "" {
+		return fmt.Errorf("the title must be between %v and %v chars", TITLE_MIN_CHAR, TITLE_MAX_CHAR)
 	}
 	return nil
 }

@@ -1,4 +1,4 @@
-package valueobject
+package value_object
 
 import (
 	"fmt"
@@ -14,12 +14,12 @@ type Message struct {
 	Value string
 }
 
-func NewMessage(value string) (*Message, error) {
+func NewMessage(value string) (Message, error) {
 	valueTrimed := strings.TrimSpace(value)
 	if err := validateMessage(valueTrimed); err != nil {
-		return nil, err
+		return Message{}, err
 	}
-	return &Message{Value: value}, nil
+	return Message{Value: value}, nil
 }
 
 func validateMessage(value string) error {
