@@ -14,5 +14,5 @@ func InitHandler() *HealthcheckHandler {
 }
 
 func (h *HealthcheckHandler) GetHealth(w http.ResponseWriter, r *http.Request) {
-	responses.Response("It's running.", http.StatusOK, w)
+	responses.New("It's running.", http.StatusOK, w)
 }

@@ -6,24 +6,24 @@ import (
 	value_object "github.com/mailsman/internal/value_object"
 )
 
-type BatchEmail struct {
+type EmailBatch struct {
 	Title          value_object.Title
 	Message        value_object.Message
 	EmailAddresses []value_object.EmailAddress
 }
 
-func newBatchEmail(
+func new(
 	title value_object.Title,
 	msg value_object.Message,
 	emailAddresses []value_object.EmailAddress,
-) *BatchEmail {
-	return &BatchEmail{Title: title, Message: msg, EmailAddresses: emailAddresses}
+) *EmailBatch {
+	return &EmailBatch{Title: title, Message: msg, EmailAddresses: emailAddresses}
 }
 
-func NewBatchEmail(
+func NewEmailBatch(
 	newTitle, newMsg string,
 	emails []string,
-) (*BatchEmail, error) {
+) (*EmailBatch, error) {
 	title, err := value_object.NewTitle(newTitle)
 	if err != nil {
 		return nil, err
@@ -52,5 +52,5 @@ func NewBatchEmail(
 		return nil, err
 	}
 
-	return newBatchEmail(title, msg, emailAddresses), err
+	return new(title, msg, emailAddresses), err
 }

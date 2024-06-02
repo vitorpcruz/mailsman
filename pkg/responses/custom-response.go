@@ -14,12 +14,12 @@ type responseContent struct {
 	Content interface{} `json:"content"`
 }
 
-func Response(msg string, httpCode int, w http.ResponseWriter) {
+func New(msg string, httpCode int, w http.ResponseWriter) {
 	w.WriteHeader(httpCode)
 	json.NewEncoder(w).Encode(response{Message: msg})
 }
 
-func ResponseWithContent(msg string, httpCode int, content interface{}, w http.ResponseWriter) {
+func NewWithContent(msg string, httpCode int, content interface{}, w http.ResponseWriter) {
 	w.WriteHeader(httpCode)
 	json.NewEncoder(w).Encode(
 		responseContent{

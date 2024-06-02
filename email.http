@@ -1,0 +1,13 @@
+###
+POST http://localhost:3000/email/new
+Content-Type: application/json
+
+{
+    "title": "this is a title",
+    "message": "this is a message content",
+    "emails": [
+        "abc@emai.com",
+        "abc@emai.com",
+        "abc@emai.com"
+    ]
+}
