@@ -1,5 +1,9 @@
 package create_batch
 
+type UseCaseInterface interface {
+	Execute(input Input, output OutputInterface)
+}
+
 type UseCase struct{}
 
 func InstantiateUseCase() *UseCase {
@@ -7,5 +11,5 @@ func InstantiateUseCase() *UseCase {
 }
 
 func (u *UseCase) Execute(input Input, output OutputInterface) {
-	output.OnSucess("OK")
+	output.OnSucess("this is a test")
 }

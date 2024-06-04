@@ -13,7 +13,7 @@ func main() {
 	healthCheckerHandler := handler.InitHandler()
 
 	batchEmailUseCase := create_batch.InstantiateUseCase()
-	emailBatchHandler := handler.NewEmailBatchHandler(batchEmailUseCase)
+	emailBatchHandler := handler.InstantiateBatchHandler(batchEmailUseCase)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)

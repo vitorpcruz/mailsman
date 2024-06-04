@@ -8,33 +8,37 @@ import (
 	"github.com/mailsman/pkg/responses"
 )
 
+var response *responses.Response
+
 type EmailBatchHandler struct {
 	createBatchUseCase create_batch.UseCaseInterface
 }
 
-var msg string
-
-func NewEmailBatchHandler(useCase create_batch.UseCaseInterface) *EmailBatchHandler {
+func InstantiateBatchHandler(useCase create_batch.UseCaseInterface) *EmailBatchHandler {
 	return &EmailBatchHandler{createBatchUseCase: useCase}
 }
 
-func (h *EmailBatchHandler) CreateBatch(w http.ResponseWriter, r *http.Request) {
+func (handler *EmailBatchHandler) OnSucess(message string) {
+	response = &responses.Response{Message: message}
+}
+
+func (handler *EmailBatchHandler) OnFail(err error) {
+	response = &responses.Response{Message: err.Error()}
+}
+
+func (handler *EmailBatchHandler) CreateBatch(w http.ResponseWriter, r *http.Request) {
 	var input create_batch.Input
 	err := json.NewDecoder(r.Body).Decode(&input)
 
 	if err != nil {
-		responses.New(msg, http.StatusBadRequest, w)
+		handler.OnFail(err)
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(response)
 		return
 	}
 
-	h.createBatchUseCase.Execute(input, h)
-	responses.New(msg, http.StatusOK, w)
-}
+	handler.createBatchUseCase.Execute(input, handler)
 
-func (h *EmailBatchHandler) OnSucess(message string) {
-	msg = message
-}
-
-func (h *EmailBatchHandler) OnFail(message string) {
-	msg = message
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
 }
