@@ -1,23 +1,21 @@
 package domain
 
 import (
-	"errors"
-
 	value_object "github.com/mailsman/internal/value_object"
 )
 
 type EmailBatch struct {
-	Title          value_object.Title
-	Message        value_object.Message
-	EmailAddresses []value_object.EmailAddress
+	Title      value_object.Title
+	Message    value_object.Message
+	Recipients value_object.Recipients
 }
 
 func new(
 	title value_object.Title,
 	msg value_object.Message,
-	emailAddresses []value_object.EmailAddress,
+	recipients value_object.Recipients,
 ) *EmailBatch {
-	return &EmailBatch{Title: title, Message: msg, EmailAddresses: emailAddresses}
+	return &EmailBatch{Title: title, Message: msg, Recipients: recipients}
 }
 
 func NewEmailBatch(
@@ -34,23 +32,10 @@ func NewEmailBatch(
 		return nil, err
 	}
 
-	emailAddresses := []value_object.EmailAddress{}
-	errList := []error{}
-	for _, e := range emails {
-		email, err := value_object.NewEmailAddress(e)
-
-		if err != nil {
-			errList = append(errList, err)
-		} else {
-			emailAddresses = append(emailAddresses, email)
-		}
-	}
-
-	err = errors.Join(errList...)
-
-	if len(emailAddresses) == 0 && len(errList) > 0 {
+	recipients, err := value_object.NewRecipients(emails)
+	if len(recipients.EmailAddresses) == 0 && err != nil {
 		return nil, err
 	}
 
-	return new(title, msg, emailAddresses), err
+	return new(title, msg, recipients), err
 }

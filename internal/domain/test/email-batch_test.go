@@ -73,7 +73,7 @@ func TestBatchEmail_NewBatchEmail_UniqueEmailValid_MustReturnBatchAndError(t *te
 
 	assert.Error(t, err)
 
-	assert.Equal(t, len(batch.EmailAddresses), 1)
+	assert.Equal(t, len(batch.Recipients.EmailAddresses), 1)
 
-	assert.Equal(t, batch.EmailAddresses[0].Value, email)
+	assert.Equal(t, batch.Recipients.EmailAddresses[0].Value, email)
 }
